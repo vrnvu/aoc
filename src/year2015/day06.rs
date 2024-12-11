@@ -116,7 +116,6 @@ pub fn part1(input: &[Action]) -> usize {
 
 pub fn part2(input: &[Action]) -> usize {
     let mut grid = vec![vec![0; 1000]; 1000];
-    let mut brightness = 0;
     for action in input {
         match action {
             Action::TurnOn(start, end) => {
