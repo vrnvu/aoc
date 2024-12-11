@@ -114,6 +114,7 @@ fn run_solution(year: &str, day: &str, data: &str) -> (String, String) {
     let (year, day) = (year.parse().unwrap(), day.parse().unwrap());
     match (year, day) {
         (Year::Year2015, Day::Day01) => year2015::day01::run(data),
+        (Year::Year2015, Day::Day02) => year2015::day02::run(data),
         (Year::Year2024, Day::Day01) => year2024::day01::run(data),
         (Year::Year2024, Day::Day02) => year2024::day02::run(data),
         (Year::Year2024, Day::Day03) => year2024::day03::run(data),
