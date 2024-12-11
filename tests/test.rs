@@ -18,4 +18,5 @@ pub mod year2015 {
     mod day03_test;
     mod day04_test;
     mod day05_test;
+    mod day06_test;
 }
