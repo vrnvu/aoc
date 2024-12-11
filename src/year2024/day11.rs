@@ -50,7 +50,7 @@ fn process_stone(memo: &mut HashMap<(u64, usize), usize>, stone: u64, blinks: us
 
     let result = process_stone(memo, stone * 2024, blinks - 1);
     memo.insert((stone, blinks), result);
-    return result;
+    result
 }
 
 pub fn part1(input: &str) -> usize {

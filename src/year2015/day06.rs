@@ -75,6 +75,7 @@ pub fn parse(input: &str) -> Vec<Action> {
         .collect()
 }
 
+#[allow(clippy::needless_range_loop)]
 pub fn part1(input: &[Action]) -> usize {
     let mut grid = vec![vec![false; 1000]; 1000];
     for action in input {
@@ -114,6 +115,7 @@ pub fn part1(input: &[Action]) -> usize {
     count
 }
 
+#[allow(clippy::needless_range_loop)]
 pub fn part2(input: &[Action]) -> usize {
     let mut grid = vec![vec![0; 1000]; 1000];
     for action in input {
