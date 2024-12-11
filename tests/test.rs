@@ -11,3 +11,7 @@ pub mod year2024 {
     mod day10_test;
     mod day11_test;
 }
+
+pub mod year2015 {
+    mod day01_test;
+}

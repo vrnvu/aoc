@@ -1,9 +1,18 @@
 use std::{env::args, str::FromStr};
 
-use aoc::year2024;
+use aoc::{year2015, year2024};
 
 enum Year {
     Year2024,
+    Year2023,
+    Year2022,
+    Year2021,
+    Year2020,
+    Year2019,
+    Year2018,
+    Year2017,
+    Year2016,
+    Year2015,
 }
 
 impl FromStr for Year {
@@ -12,6 +21,15 @@ impl FromStr for Year {
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         Ok(match s {
             "2024" => Year::Year2024,
+            "2023" => Year::Year2023,
+            "2022" => Year::Year2022,
+            "2021" => Year::Year2021,
+            "2020" => Year::Year2020,
+            "2019" => Year::Year2019,
+            "2018" => Year::Year2018,
+            "2017" => Year::Year2017,
+            "2016" => Year::Year2016,
+            "2015" => Year::Year2015,
             _ => return Err(()),
         })
     }
@@ -95,6 +113,7 @@ fn main() {
 fn run_solution(year: &str, day: &str, data: &str) -> (String, String) {
     let (year, day) = (year.parse().unwrap(), day.parse().unwrap());
     match (year, day) {
+        (Year::Year2015, Day::Day01) => year2015::day01::run(data),
         (Year::Year2024, Day::Day01) => year2024::day01::run(data),
         (Year::Year2024, Day::Day02) => year2024::day02::run(data),
         (Year::Year2024, Day::Day03) => year2024::day03::run(data),
