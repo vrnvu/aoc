@@ -6,5 +6,6 @@ edition = "2021"
 [dependencies]
 anyhow = "1.0.94"
 fs-err = "3.0.0"
+md5 = "0.7.0"
 rayon = "1.10.0"
 regex = "1.11.1"
