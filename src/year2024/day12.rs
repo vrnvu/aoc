@@ -10,7 +10,7 @@ pub fn run(input: &str) -> (String, String) {
 }
 
 pub fn parse(input: &str) -> Grid<u8> {
-    Grid::new(input.lines().map(|line| line.as_bytes().to_vec()).collect())
+    input.lines().map(|line| line.as_bytes().to_vec()).collect()
 }
 
 pub fn part1(input: &Grid<u8>) -> usize {

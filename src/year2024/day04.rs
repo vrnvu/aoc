@@ -8,7 +8,7 @@ pub fn run(input: &str) -> (String, String) {
 }
 
 pub fn parse(input: &str) -> Grid<char> {
-    Grid::new(input.lines().map(|line| line.chars().collect()).collect())
+    input.lines().map(|line| line.chars().collect()).collect()
 }
 
 pub fn part1(input: &Grid<char>) -> u32 {
