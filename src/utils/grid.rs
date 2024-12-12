@@ -77,6 +77,11 @@ impl<T> Grid<T> {
         self.width
     }
 
+    pub fn iter_positions(&self) -> impl Iterator<Item = (Vector, &T)> {
+        (0..self.length)
+            .flat_map(move |i| (0..self.width).map(move |j| (Vector::new(i, j), &self.grid[i][j])))
+    }
+
     pub fn get(&self, vector: Vector) -> Option<&T> {
         let new_i = vector.i;
         let new_j = vector.j;

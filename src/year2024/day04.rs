@@ -13,13 +13,10 @@ pub fn parse(input: &str) -> Grid<char> {
 
 pub fn part1(input: &Grid<char>) -> u32 {
     let mut count = 0;
-    for i in 0..input.len() {
-        for j in 0..input.width() {
-            let origin = Vector::new(i, j);
-            if input.get(origin) == Some(&'X') {
-                if let Some(count_found) = search_mas(input, origin) {
-                    count += count_found;
-                }
+    for (origin, &c) in input.iter_positions() {
+        if c == 'X' {
+            if let Some(count_found) = search_mas(input, origin) {
+                count += count_found;
             }
         }
     }
