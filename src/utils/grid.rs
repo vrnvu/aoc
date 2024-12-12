@@ -65,6 +65,10 @@ impl<T> Grid<T> {
         }
     }
 
+    pub fn is_empty(&self) -> bool {
+        self.grid.is_empty()
+    }
+
     pub fn len(&self) -> usize {
         self.length
     }
@@ -74,8 +78,8 @@ impl<T> Grid<T> {
     }
 
     pub fn get(&self, vector: Vector) -> Option<&T> {
-        let new_i = vector.i as isize;
-        let new_j = vector.j as isize;
+        let new_i = vector.i;
+        let new_j = vector.j;
 
         if new_i < 0 || new_i >= self.length as isize || new_j < 0 || new_j >= self.width as isize {
             return None;
@@ -85,8 +89,8 @@ impl<T> Grid<T> {
     }
 
     pub fn get_from(&self, origin: Vector, vector: Vector) -> Option<&T> {
-        let new_i = origin.i as isize + vector.i;
-        let new_j = origin.j as isize + vector.j;
+        let new_i = origin.i + vector.i;
+        let new_j = origin.j + vector.j;
 
         if new_i < 0 || new_i >= self.length as isize || new_j < 0 || new_j >= self.width as isize {
             return None;

@@ -58,7 +58,7 @@ pub fn parse(input: &str) -> Vec<Instruction> {
 pub fn part1(input: &[Instruction]) -> u16 {
     let mut wires = HashMap::new();
     let mut stack = Vec::new();
-    for instruction in input.into_iter() {
+    for instruction in input.iter() {
         if let Instruction::ProvideLiteral(literal, wire) = instruction {
             wires.insert(wire.as_str(), *literal);
         } else {
