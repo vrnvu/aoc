@@ -17,7 +17,7 @@ pub fn part1(input: &Grid<char>) -> u32 {
         for j in 0..input.width() {
             let origin = Vector::new(i, j);
             if input.get(origin) == Some(&'X') {
-                if let Some(count_found) = search_mas(&input, origin) {
+                if let Some(count_found) = search_mas(input, origin) {
                     count += count_found;
                 }
             }
@@ -41,8 +41,7 @@ fn search_mas(grid: &Grid<char>, origin: Vector) -> Option<u32> {
     for vector in vectors {
         let mas = vector
             .iter()
-            .map(|v| grid.get_from(origin, *v))
-            .flatten()
+            .filter_map(|v| grid.get_from(origin, *v))
             .cloned()
             .collect::<Vec<char>>();
 
@@ -59,7 +58,7 @@ pub fn part2(input: &Grid<char>) -> u32 {
         for j in 0..input.width() {
             let origin = Vector::new(i, j);
             if input.get(origin) == Some(&'A') {
-                if let Some(count_found) = search_ms(&input, origin) {
+                if let Some(count_found) = search_ms(input, origin) {
                     count += count_found;
                 }
             }
@@ -74,15 +73,13 @@ pub fn search_ms(grid: &Grid<char>, origin: Vector) -> Option<u32> {
 
     let left = left_vector
         .iter()
-        .map(|v| grid.get_from(origin, *v))
-        .flatten()
+        .filter_map(|v| grid.get_from(origin, *v))
         .cloned()
         .collect::<Vec<char>>();
 
     let right = right_vector
         .iter()
-        .map(|v| grid.get_from(origin, *v))
-        .flatten()
+        .filter_map(|v| grid.get_from(origin, *v))
         .cloned()
         .collect::<Vec<char>>();
 
