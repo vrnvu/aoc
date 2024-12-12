@@ -54,6 +54,13 @@ pub struct Grid<T> {
     width: usize,
 }
 
+impl<T> FromIterator<Vec<T>> for Grid<T> {
+    fn from_iter<I: IntoIterator<Item = Vec<T>>>(iter: I) -> Self {
+        let grid = iter.into_iter().collect();
+        Self::new(grid)
+    }
+}
+
 impl<T> Grid<T> {
     pub fn new(grid: Vec<Vec<T>>) -> Self {
         let length = grid.len();

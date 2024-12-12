@@ -1,119 +1,96 @@
 use std::collections::HashSet;
 
+use crate::utils::grid::{Grid, Vector, DOWN, LEFT, RIGHT, UP};
+
 pub fn run(input: &str) -> (String, String) {
-    (part1(input).to_string(), part2(input).to_string())
+    let input = parse(input);
+    (part1(&input).to_string(), part2(&input).to_string())
 }
 
-pub fn parse(input: &str) -> String {
-    input.to_string()
+pub fn parse(input: &str) -> Grid<u8> {
+    input
+        .lines()
+        .map(|line| {
+            line.chars()
+                .map(|c| c.to_digit(10).unwrap() as u8)
+                .collect()
+        })
+        .collect()
 }
 
-fn parse_grid(input: &str) -> Vec<Vec<u8>> {
-    let mut grid = Vec::with_capacity(input.lines().count());
-    for line in input.lines() {
-        let mut row = Vec::new();
-        for c in line.chars() {
-            row.push(c.to_digit(10).unwrap() as u8);
+pub fn part1(input: &Grid<u8>) -> usize {
+    let mut trailheads = 0;
+    for (origin, &value) in input.iter_positions() {
+        if value == 0 {
+            trailheads += count_trailheads(input, origin);
         }
-        grid.push(row);
     }
-    grid
+    trailheads
 }
 
-fn count_trailheads(grid: &[Vec<u8>], starting_coords: (usize, usize)) -> usize {
+fn count_trailheads(grid: &Grid<u8>, origin: Vector) -> usize {
     let mut trailheads = 0;
     let mut stack = Vec::new();
-    let mut visited = HashSet::with_capacity(grid.len() * grid[0].len());
+    let mut visited = HashSet::new();
 
-    stack.push(starting_coords);
-    while let Some((i, j)) = stack.pop() {
-        if !visited.insert((i, j)) {
+    stack.push(origin);
+    while let Some(position) = stack.pop() {
+        if !visited.insert(position) {
             continue;
         }
 
-        if grid[i][j] == 9 {
-            trailheads += 1;
-            continue;
-        }
-
-        let neighbors = [
-            (i.checked_sub(1).map(|x| (x, j))),
-            (i.checked_add(1).map(|x| (x, j))),
-            (j.checked_sub(1).map(|y| (i, y))),
-            (j.checked_add(1).map(|y| (i, y))),
-        ];
-        for next_pos in neighbors.into_iter().flatten() {
-            let (ni, nj) = next_pos;
-            if ni >= grid.len() || nj >= grid[0].len() {
-                continue;
-            }
-            if grid[ni][nj] != grid[i][j] + 1 {
+        if let Some(value) = grid.get(position) {
+            if *value == 9 {
+                trailheads += 1;
                 continue;
             }
 
-            stack.push((ni, nj));
+            let directions = [UP, DOWN, LEFT, RIGHT];
+            for direction in directions {
+                if let Some(next_value) = grid.get_from(position, direction) {
+                    if *next_value == *value + 1 {
+                        stack.push(position + direction);
+                    }
+                }
+            }
         }
     }
 
     trailheads
 }
 
-pub fn part1(input: &str) -> usize {
-    let grid = parse_grid(input);
+pub fn part2(input: &Grid<u8>) -> usize {
     let mut trailheads = 0;
-    for i in 0..grid.len() {
-        for j in 0..grid[i].len() {
-            if grid[i][j] == 0 {
-                trailheads += count_trailheads(&grid, (i, j));
-            }
+    for (position, &value) in input.iter_positions() {
+        if value == 0 {
+            trailheads += count_all_trailheads(input, position);
         }
     }
     trailheads
 }
 
-fn count_all_trailheads(grid: &[Vec<u8>], starting_coords: (usize, usize)) -> usize {
+fn count_all_trailheads(input: &Grid<u8>, origin: Vector) -> usize {
     let mut all_trailheads = 0;
     let mut stack = Vec::new();
+    stack.push(origin);
 
-    stack.push(starting_coords);
-
-    while let Some((i, j)) = stack.pop() {
-        if grid[i][j] == 9 {
-            all_trailheads += 1;
-            continue;
-        }
-
-        let neighbors = [
-            (i.checked_sub(1).map(|x| (x, j))),
-            (i.checked_add(1).map(|x| (x, j))),
-            (j.checked_sub(1).map(|y| (i, y))),
-            (j.checked_add(1).map(|y| (i, y))),
-        ];
-        for next_pos in neighbors.into_iter().flatten() {
-            let (ni, nj) = next_pos;
-            if ni >= grid.len() || nj >= grid[0].len() {
-                continue;
-            }
-            if grid[ni][nj] != grid[i][j] + 1 {
+    while let Some(position) = stack.pop() {
+        if let Some(value) = input.get(position) {
+            if *value == 9 {
+                all_trailheads += 1;
                 continue;
             }
 
-            stack.push((ni, nj));
+            let directions = [UP, DOWN, LEFT, RIGHT];
+            for direction in directions {
+                if let Some(next_value) = input.get_from(position, direction) {
+                    if *next_value == *value + 1 {
+                        stack.push(position + direction);
+                    }
+                }
+            }
         }
     }
 
     all_trailheads
-}
-
-pub fn part2(input: &str) -> usize {
-    let grid = parse_grid(input);
-    let mut trailheads = 0;
-    for i in 0..grid.len() {
-        for j in 0..grid[i].len() {
-            if grid[i][j] == 0 {
-                trailheads += count_all_trailheads(&grid, (i, j));
-            }
-        }
-    }
-    trailheads
 }
