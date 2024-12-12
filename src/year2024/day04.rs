@@ -12,15 +12,11 @@ pub fn parse(input: &str) -> Grid<char> {
 }
 
 pub fn part1(input: &Grid<char>) -> u32 {
-    let mut count = 0;
-    for (origin, &c) in input.iter_positions() {
-        if c == 'X' {
-            if let Some(count_found) = search_mas(input, origin) {
-                count += count_found;
-            }
-        }
-    }
-    count
+    input
+        .iter_positions()
+        .filter(|(_, c)| *c == &'X')
+        .flat_map(|(origin, _)| search_mas(input, origin))
+        .sum()
 }
 
 fn search_mas(grid: &Grid<char>, origin: Vector) -> Option<u32> {
@@ -50,18 +46,11 @@ fn search_mas(grid: &Grid<char>, origin: Vector) -> Option<u32> {
 }
 
 pub fn part2(input: &Grid<char>) -> u32 {
-    let mut count = 0;
-    for i in 0..input.len() {
-        for j in 0..input.width() {
-            let origin = Vector::new(i, j);
-            if input.get(origin) == Some(&'A') {
-                if let Some(count_found) = search_ms(input, origin) {
-                    count += count_found;
-                }
-            }
-        }
-    }
-    count
+    input
+        .iter_positions()
+        .filter(|(_, c)| *c == &'A')
+        .flat_map(|(origin, _)| search_ms(input, origin))
+        .sum()
 }
 
 pub fn search_ms(grid: &Grid<char>, origin: Vector) -> Option<u32> {
