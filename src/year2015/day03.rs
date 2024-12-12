@@ -1,52 +1,49 @@
 use std::collections::HashSet;
 
-const NORTH: (isize, isize) = (-1, 0);
-const SOUTH: (isize, isize) = (1, 0);
-const EAST: (isize, isize) = (0, 1);
-const WEST: (isize, isize) = (0, -1);
+use crate::utils::grid::{Vector, DOWN, LEFT, RIGHT, UP};
 
 pub fn run(input: &str) -> (String, String) {
     let input = parse(input);
     (part1(&input).to_string(), part2(&input).to_string())
 }
 
-pub fn parse(input: &str) -> Vec<(isize, isize)> {
+pub fn parse(input: &str) -> Vec<Vector> {
     input
         .chars()
         .map(|c| match c {
-            '^' => NORTH,
-            'v' => SOUTH,
-            '>' => EAST,
-            '<' => WEST,
+            '^' => UP,
+            'v' => DOWN,
+            '>' => RIGHT,
+            '<' => LEFT,
             _ => unreachable!(),
         })
         .collect()
 }
 
-pub fn part1(input: &[(isize, isize)]) -> u64 {
-    let mut current_position = (0, 0);
+pub fn part1(input: &[Vector]) -> u64 {
+    let mut current_position = Vector::new(0, 0);
     let mut visited = HashSet::new();
     visited.insert(current_position);
-    for (dx, dy) in input {
-        current_position = (current_position.0 + dx, current_position.1 + dy);
+    for &direction in input {
+        current_position = current_position + direction;
         visited.insert(current_position);
     }
     visited.len() as u64
 }
 
-pub fn part2(input: &[(isize, isize)]) -> usize {
-    let mut santa = (0, 0);
-    let mut robo_santa = (0, 0);
+pub fn part2(input: &[Vector]) -> usize {
+    let mut santa = Vector::new(0, 0);
+    let mut robo_santa = Vector::new(0, 0);
     let mut visited = HashSet::new();
 
     visited.insert(santa);
 
-    for (i, (dx, dy)) in input.iter().enumerate() {
+    for (i, &direction) in input.iter().enumerate() {
         if i % 2 == 0 {
-            santa = (santa.0 + dx, santa.1 + dy);
+            santa = santa + direction;
             visited.insert(santa);
         } else {
-            robo_santa = (robo_santa.0 + dx, robo_santa.1 + dy);
+            robo_santa = robo_santa + direction;
             visited.insert(robo_santa);
         }
     }
