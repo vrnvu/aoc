@@ -35,11 +35,9 @@ fn is_valid(input: &[u8]) -> bool {
         if i + 2 < input.len() && input[i + 1] == byte + 1 && input[i + 2] == byte + 2 {
             has_straight = true;
         }
-        if i + 1 < input.len() && byte == input[i + 1] {
-            if last_pair_pos.map_or(true, |pos| pos < i) {
-                number_of_pairs += 1;
-                last_pair_pos = Some(i + 1);
-            }
+        if i + 1 < input.len() && byte == input[i + 1] && last_pair_pos.map_or(true, |pos| pos < i) {
+            number_of_pairs += 1;
+            last_pair_pos = Some(i + 1);
         }
     }
 
