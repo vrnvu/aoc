@@ -6,6 +6,7 @@ edition = "2021"
 [dependencies]
 anyhow = "1.0.94"
 fs-err = "3.0.0"
+json = "0.12.4"
 md5 = "0.7.0"
 rand = "0.8.5"
 rayon = "1.10.0"

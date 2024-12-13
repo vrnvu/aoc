@@ -124,6 +124,7 @@ fn run_solution(year: &str, day: &str, data: &str) -> (String, String) {
         (Year::Year2015, Day::Day09) => year2015::day09::run(data),
         (Year::Year2015, Day::Day10) => year2015::day10::run(data),
         (Year::Year2015, Day::Day11) => year2015::day11::run(data),
+        (Year::Year2015, Day::Day12) => year2015::day12::run(data),
         (Year::Year2024, Day::Day01) => year2024::day01::run(data),
         (Year::Year2024, Day::Day02) => year2024::day02::run(data),
         (Year::Year2024, Day::Day03) => year2024::day03::run(data),
