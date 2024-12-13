@@ -1,5 +1,3 @@
-use crate::utils::grid::Vector;
-
 #[derive(Debug)]
 pub struct Equation {
     a1: isize,

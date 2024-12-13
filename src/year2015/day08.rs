@@ -44,10 +44,7 @@ pub fn part2(input: &[Vec<u8>]) -> usize {
             if index == 0 || index == line.len() - 1 {
                 chars_len += 3;
                 index += 1;
-            } else if line[index] == b'"' {
-                chars_len += 2;
-                index += 1;
-            } else if line[index] == b'\\' {
+            } else if line[index] == b'"' || line[index] == b'\\' {
                 chars_len += 2;
                 index += 1;
             } else {
