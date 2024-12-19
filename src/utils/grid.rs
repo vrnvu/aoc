@@ -1,4 +1,8 @@
-use std::ops::{Add, Mul};
+use std::{
+    num::ParseIntError,
+    ops::{Add, Mul},
+    str::FromStr,
+};
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub struct Vector {
@@ -11,6 +15,13 @@ impl Vector {
         Self {
             i: i as isize,
             j: j as isize,
+        }
+    }
+
+    pub fn flip(self) -> Self {
+        Self {
+            i: self.j,
+            j: self.i,
         }
     }
 }
@@ -48,25 +59,54 @@ impl Mul<isize> for Vector {
     }
 }
 
-pub struct Grid<T> {
+impl FromStr for Vector {
+    type Err = ParseIntError;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        let (i, j) = s.split_once(",").unwrap();
+        Ok(Self {
+            i: i.parse().unwrap(),
+            j: j.parse().unwrap(),
+        })
+    }
+}
+
+pub struct Grid<T>
+where
+    T: Copy + Clone,
+{
     grid: Vec<Vec<T>>,
     length: usize,
     width: usize,
 }
 
-impl<T> FromIterator<Vec<T>> for Grid<T> {
+impl<T> FromIterator<Vec<T>> for Grid<T>
+where
+    T: Copy + Clone,
+{
     fn from_iter<I: IntoIterator<Item = Vec<T>>>(iter: I) -> Self {
         let grid = iter.into_iter().collect();
         Self::new(grid)
     }
 }
 
-impl<T> Grid<T> {
-    pub fn new(grid: Vec<Vec<T>>) -> Self {
+impl<T> Grid<T>
+where
+    T: Copy + Clone,
+{
+    fn new(grid: Vec<Vec<T>>) -> Self {
         let length = grid.len();
         let width = grid[0].len();
         Self {
             grid,
+            length,
+            width,
+        }
+    }
+
+    pub fn new_with_size(length: usize, width: usize, value: T) -> Self {
+        Self {
+            grid: vec![vec![value; width]; length],
             length,
             width,
         }
